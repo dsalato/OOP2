@@ -1,0 +1,44 @@
+{% extends "basic.html" %}
+
+{% block title %} Профиль пользователя {% endblock %}
+
+{% block content %}
+   <h2 class="profile_h2">Профиль пользователя {{ user.username }}</h2>
+   {% if user.first_name and user.last_name %}
+       <p class="profile_p">Здравствуйте, {{ user.first_name }} {{ user.last_name }} </p>
+   {% else %}
+       <p class="profile_p">Здравствуйте! </p>
+   {% endif %}
+    {% if user.is_superuser %}
+    <h3 class="profile_h3">Все заявки</h3>
+    {% else %}
+    <h3 class="profile_h3">Ваши заявки</h3>
+    {% endif %}
+    <div class="profile_form">
+        <form method="get" >
+           {{ filter.form }}
+           {% csrf_token %}
+           <button type="submit">Применить</button>
+       </form>
+    </div>
+    <div class="index_content">
+    {% for request in filter.qs %}
+        <div class="index_request">
+            <img width="250px" height="250px" src="{{request.photo.url}}">
+            <p class="index_p_request">Название проекта - {{ request.name }}</p>
+            <p class="index_p_request">Категория - {{ request.category }}</p>
+            <p class="index_p_request">Дата заявки : {{ request.date }}</p>
+            {% if user.is_superuser and request.status_verbose == 'Новая' %}
+                <p class="index_p">Изменить статус заявки</p>
+                <div class="index_status">
+                    <a class="index_status_a" href="{% url 'request_update' request.pk 'in proqress' %}"><button>В процессе</button></a>
+                    <a class="index_status_a" href="{% url 'request_update' request.pk  'completed' %}"><button>Выполнено</button></a>
+                </div>
+            {% elif  request.status_verbose == 'Новая' %}
+                <a class="profile_a" href="{% url 'request_delete' request.pk %}">Удалить заявку</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+    </div>
+
+{% endblock %}

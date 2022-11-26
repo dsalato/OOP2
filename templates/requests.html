@@ -1,0 +1,12 @@
+{% extends "basic.html" %}
+
+{% block title %} Cоздать заявку {% endblock %}
+
+{% block content %}
+   <h2 class="h2">Cоздать заявку</h2>
+   <form method="post" enctype="multipart/form-data">
+       {{ form.as_p}}
+       {% csrf_token %}
+       <button type="submit">Готово</button>
+   </form>
+{% endblock %}

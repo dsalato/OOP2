@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator
-from .models import User
+from .models import User, Request, Category
 from django import forms
 
 
@@ -71,4 +71,27 @@ class RegisterUserForm(forms.ModelForm):
                   'username', 'password', 'password2', 'rules')
 
 
+class CreateRequestForm(forms.ModelForm):
 
+    class Meta:
+        model = Request
+        fields = ['name', 'text', 'category', 'photo']
+
+
+class CreateCategoryForm(forms.ModelForm):
+
+    class Meta:
+        model = Category
+        fields = ['name']
+
+
+class DonePhotoRequests(forms.ModelForm):
+    class Meta:
+        model = Request
+        fields = ['photo_done']
+
+
+class CommitRequests(forms.ModelForm):
+    class Meta:
+        model = Request
+        fields = ['text_commit']

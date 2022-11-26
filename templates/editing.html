@@ -1,0 +1,12 @@
+{% extends "basic.html" %}
+
+{% block content %}
+    <h2 class="h2">Изменение статуса</h2>
+    <form method="post" enctype="multipart/form-data">
+        <div class="form_editing">
+            {% csrf_token %}
+            {{ form }}
+        </div>
+        <button type="submit">Добавить</button>
+    </form>
+{% endblock %}

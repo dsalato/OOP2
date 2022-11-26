@@ -1,27 +1,27 @@
 {% extends "basic.html" %}
 {% block content %}
-    <h1>Аутентификация</h1>
+    <h2 class="h2">Аутентификация</h2>
     {% if form.errors %}
-        <div class="alert-danger">
-            <p class="p-1">Неправильный логин или пароль</p>
+        <div class="">
+            <p class="login_p" class="">Неправильный логин или пароль</p>
         </div>
     {% endif %}
     {% if user.is_authenticated %}
-         <p>Вы уже авторизованы. <a href="#">Выйти</a></p>
+         <p class="login_p" class="category_pp">Вы уже авторизованы. <a href="{% url 'logout' %}">Выйти</a></p>
     {% else %}
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            <table>
-                <tr>
-                    <td>{{ form.username.label_tag }}</td>
-                    <td>{{ form.username }}</td>
+            <table class="table">
+                <tr class="table_tr">
+                    <td class="table_td">{{ form.username.label_tag }}</td>
+                    <td class="table_td">{{ form.username }}</td>
                 </tr>
-                <tr>
-                    <td>{{ form.password.label_tag }}</td>
-                    <td>{{ form.password }}</td>
+                <tr class="table_tr">
+                    <td class="table_td">{{ form.password.label_tag }}</td>
+                    <td class="table_td">{{ form.password }}</td>
                 </tr>
             </table>
-            <input type="submit" value="Войти">
+            <input class="category_aa" type="submit" value="Войти">
 
         </form>
     {% endif %}

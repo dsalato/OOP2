@@ -3,6 +3,18 @@
 {% block title %} DesignPro {% endblock %}
 
 {% block content %}
-   <h2>DesignPro</h2>
-
+   <p class="index_p">Количество заявок, находящихся в статусе «Принято в работу»: {{request_in_proqress}}</p>
+   <h3 class="index_h3">Наши законченные работы</h3>
+   <div class="index_content">
+      {% for request in requests_completed %}
+         {% if forloop.counter <= 4 %}
+         <div class="index_request">
+            <img width="250px" height="250px" src="{{request.photo.url}}">
+            <p class="index_p_request">Название проекта - {{ request.name }}</p>
+            <p class="index_p_request">Категория - {{ request.category }}</p>
+            <p class="index_p_request">Дата заявки : {{ request.date }}</p>
+         </div>
+         {% endif %}
+      {% endfor %}
+   </div>
 {% endblock %}
