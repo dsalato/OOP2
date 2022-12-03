@@ -40,10 +40,10 @@ class Request(models.Model):
     user = models.ForeignKey('User', verbose_name='Пользователь', on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=254, verbose_name='Имя', blank=False)
     text = models.TextField(max_length=500, verbose_name='Описание', blank=False)
-    text_commit = models.TextField(max_length=500, verbose_name='Комментарий', null=True, blank=True)
+    text_commit = models.TextField(max_length=500, verbose_name='Комментарий', null=True, blank=False)
     date = models.DateTimeField(verbose_name='Дата_добавления', auto_now_add=True)
     category = models.ForeignKey('Category', verbose_name='Категория', on_delete=models.CASCADE)
-    photo_done = models.ImageField(max_length=254, verbose_name='Готовые работы', upload_to=get_name_file, blank=True, null=True,
+    photo_done = models.ImageField(max_length=254, verbose_name='Готовые работы', upload_to=get_name_file, blank=False, null=True,
                                    validators=[FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg', 'bmp']),
                                                file_size])
     photo = models.ImageField(max_length=254, verbose_name='Фотография', upload_to=get_name_file, blank=True, null=True,

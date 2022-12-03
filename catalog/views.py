@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LogoutView
+from django.http import HttpResponseForbidden
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views import generic
@@ -22,6 +23,10 @@ class LogoutView(LogoutView):
 def index(request):
     request_in_proqress = Request.objects.all().filter(status='in proqress').count()
     requests_completed = Request.objects.filter(status='completed')
+
+    class Meta:
+        ordering = ['date']
+
     return render(request, 'index.html',
                   context={'requests_completed': requests_completed,
                            'request_in_proqress': request_in_proqress})
@@ -95,6 +100,14 @@ class RequestDelete(DeleteView):
     model = Request
     template_name = 'request_confirm_delete.html'
     success_url = reverse_lazy('profile')
+
+    def get(self, request, *args, **kwargs):
+        object_instance = self.get_object()
+        object_user = request.user
+        if object_user != object_instance.user and request.status_verbose() != 'Новая':
+            return HttpResponseForbidden('Permission Error')
+        else:
+            return render(request, 'request_confirm_delete.html')
 
 
 def category_list(request):
